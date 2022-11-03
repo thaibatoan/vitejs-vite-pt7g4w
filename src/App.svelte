@@ -6,7 +6,7 @@
   import { getCombinationType } from './logic';
   import StackedCards from './lib/StackedCards.svelte';
   import { getCardRankAndSuit, randomInt } from './utils';
-  import InlineSVG from 'svelte-inline-svg'
+  import ArcanaCard from './lib/ArcanaCard.svelte';
 
   const [send, receive] = crossfade({});
 
@@ -92,16 +92,12 @@
     <StackedCards {number} />
   </div>
 
-  {#if showHand}
-  <InlineSVG src='./src/assets/A.svg'/>
-  {/if}
-
   <div class="board" style="position: relative; height: 300px">
     {#each playedCards as { cards, rotation, x, y }}
-      <div class="board-item" style="rotate: {rotation}deg; translate: {x}px {y}px; --items: {cards.length}" >
+      <div class="board-item" style="rotate: {rotation}deg; translate: {x}px {y}px; --items: {cards.length}">
         {#each cards as card}
           <div class="image">
-            <img in:receive={{ key: card }} src="{card}.svg" class="logo" alt={card}  />
+            <img in:receive={{ key: card }} src="{card}.svg" class="logo" alt={card} />
           </div>
         {/each}
       </div>
@@ -131,31 +127,19 @@
     <button on:click={dealCards}>Deal</button>
   </div>
 
-  {#each SUITS as suit}
-    <div>
-      {#each RANKS as rank}
-      <svg xmlns:svg="http://www.w3.org/2000/svg" viewBox="0 0 140 190" style:color="{(suit === '♠️' || suit === '♣️')?'black':'red'}">
-        <g>
-          <g>
-            <path d="m21 5h103c8.86 0 16 7.136 16 16v153c0 8.86-7.14 16-16 16h-103c-8.864 0-16-7.14-16-16v-153c0-8.864 7.136-16 16-16z" fill-opacity=".49804"/>
-            <path d="m17 1h103c8.86 0 16 7.136 16 16v153c0 8.86-7.14 16-16 16h-103c-8.864 0-16-7.14-16-16v-153c0-8.864 7.136-16 16-16z" fill="#e7e7e7"/>
-            <path d="m19 3h103c8.86 0 16 7.136 16 16v153c0 8.86-7.14 16-16 16h-103c-8.864 0-16-7.14-16-16v-153c0-8.864 7.136-16 16-16z" fill="#c7891f"/>
-            <path d="m18 2h103c8.86 0 16 7.136 16 16v153c0 8.86-7.14 16-16 16h-103c-8.864 0-16-7.14-16-16v-153c0-8.864 7.136-16 16-16z" fill="#fff"/>
-          </g>
-        </g>
-        <g class="path-wrapper" fill="transparent" stroke="currentColor" stroke-width="2px">
-          {#await import(`./assets/${rank}${suit}.svg?raw`) then { default: svg }}
-            {@html svg}
-          {/await}
-        </g>
-      </svg>
-      {/each}
-    </div>
-  {/each}
+  {#if showHand}
+    {#each SUITS as suit}
+      <div>
+        {#each RANKS as rank}
+          <ArcanaCard {suit} {rank} />
+        {/each}
+      </div>
+    {/each}
+  {/if}
 </main>
 
 <style>
-   .logo {
+  .logo {
     width: 5em;
     will-change: filter;
   }
