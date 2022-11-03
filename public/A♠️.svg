@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:cc="http://web.resource.org/cc/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:svg="http://www.w3.org/2000/svg" id="svg2" viewBox="0 0 140 190" sodipodi:version="0.32" version="1.0" y="0" x="0" sodipodi:docname="white_s_a.svg" sodipodi:docbase="/home/nicu/Desktop/card_nicu_buculei_01.zip_FILES/cards/white">
+  <sodipodi:namedview id="base" bordercolor="#666666" borderopacity="1.0" pagecolor="#ffffff"/>
+  <g id="layer1">
+    <g id="g5630">
+      <path id="rect2070" d="m21 5h103c8.86 0 16 7.136 16 16v153c0 8.86-7.14 16-16 16h-103c-8.864 0-16-7.14-16-16v-153c0-8.864 7.136-16 16-16z" fill-opacity=".49804"/>
+      <path id="rect1300" d="m17 1h103c8.86 0 16 7.136 16 16v153c0 8.86-7.14 16-16 16h-103c-8.864 0-16-7.14-16-16v-153c0-8.864 7.136-16 16-16z" fill="#e7e7e7"/>
+      <path id="path5624" d="m19 3h103c8.86 0 16 7.136 16 16v153c0 8.86-7.14 16-16 16h-103c-8.864 0-16-7.14-16-16v-153c0-8.864 7.136-16 16-16z" fill="#c7891f"/>
+      <path id="rect1306" d="m18 2h103c8.86 0 16 7.136 16 16v153c0 8.86-7.14 16-16 16h-103c-8.864 0-16-7.14-16-16v-153c0-8.864 7.136-16 16-16z" fill="#fff"/>
+    </g>
+  </g>
+  <g id="g1600" transform="matrix(1 0 0 .40081 -239.33 -10.811)">
+    <path id="path1561" sodipodi:nodetypes="cccccccccc" fill-rule="evenodd" d="m260.42 148.39c-4.93 19.52-20.04 52.76-10.46 63.03 5.81 4.72 8.57-4.95 9.74-11.35h0.24l-3.86 32.3 8.94-0.1s-3.85-31.05-3.86-32.23h0.09c0.95 5.23 4.54 16.06 8.49 11.94 11.54-11.57-5.46-44.47-9.32-63.59z"/>
+  </g>
+  <path id="text1481" d="m25.079 36.775h-10.001l-1.579 5.465h-6.429l9.187-30h7.626l9.187 30h-6.429l-1.562-5.465m-8.406-5.566h6.794l-3.389-11.936-3.405 11.936"/>
+  <g id="g19507" transform="matrix(-1 0 0 -.40081 378.02 199.48)">
+    <path id="path19509" sodipodi:nodetypes="cccccccccc" fill-rule="evenodd" d="m260.42 148.39c-4.93 19.52-20.04 52.76-10.46 63.03 5.81 4.72 8.57-4.95 9.74-11.35h0.24l-3.86 32.3 8.94-0.1s-3.85-31.05-3.86-32.23h0.09c0.95 5.23 4.54 16.06 8.49 11.94 11.54-11.57-5.46-44.47-9.32-63.59z"/>
+  </g>
+  <path id="text19511" d="m113.61 152.1h10l1.58-5.47h6.43l-9.19 30h-7.62l-9.19-30h6.43l1.56 5.47m8.41 5.56h-6.8l3.39 11.94 3.41-11.94"/>
+  
+  <path id="path4163" fill-rule="evenodd" d="M 69.781 59.062 C 59.206 75.876 26.756 104.5 47.312 113.34 C 59.791 117.41 65.735 109.08 68.25 103.56 L 68.75 103.56 L 60.469 131.38 L 79.656 131.31 C 79.656 131.31 71.394 104.55 71.375 103.53 L 71.562 103.53 C 73.594 108.04 81.302 117.37 89.781 113.81 C 114.58 103.85 78.073 75.527 69.781 59.062 Z"></path>
+</svg>
