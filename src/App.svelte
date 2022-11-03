@@ -6,7 +6,6 @@
   import { getCombinationType } from './logic';
   import StackedCards from './lib/StackedCards.svelte';
   import { getCardRankAndSuit, randomInt } from './utils';
-  import svg from './assets/A.svg';
   import InlineSVG from 'svelte-inline-svg'
 
   const [send, receive] = crossfade({});
@@ -135,7 +134,21 @@
   {#each SUITS as suit}
     <div>
       {#each RANKS as rank}
-        <img src="{rank}{suit}.svg" class="logo" alt={rank} />
+      <svg xmlns:svg="http://www.w3.org/2000/svg" viewBox="0 0 140 190" style:color="{(suit === '♠️' || suit === '♣️')?'black':'red'}">
+        <g>
+          <g>
+            <path d="m21 5h103c8.86 0 16 7.136 16 16v153c0 8.86-7.14 16-16 16h-103c-8.864 0-16-7.14-16-16v-153c0-8.864 7.136-16 16-16z" fill-opacity=".49804"/>
+            <path d="m17 1h103c8.86 0 16 7.136 16 16v153c0 8.86-7.14 16-16 16h-103c-8.864 0-16-7.14-16-16v-153c0-8.864 7.136-16 16-16z" fill="#e7e7e7"/>
+            <path d="m19 3h103c8.86 0 16 7.136 16 16v153c0 8.86-7.14 16-16 16h-103c-8.864 0-16-7.14-16-16v-153c0-8.864 7.136-16 16-16z" fill="#c7891f"/>
+            <path d="m18 2h103c8.86 0 16 7.136 16 16v153c0 8.86-7.14 16-16 16h-103c-8.864 0-16-7.14-16-16v-153c0-8.864 7.136-16 16-16z" fill="#fff"/>
+          </g>
+        </g>
+        <g class="path-wrapper" fill="transparent" stroke="currentColor" stroke-width="2px">
+          {#await import(`./assets/${rank}${suit}.svg?raw`) then { default: svg }}
+            {@html svg}
+          {/await}
+        </g>
+      </svg>
       {/each}
     </div>
   {/each}
