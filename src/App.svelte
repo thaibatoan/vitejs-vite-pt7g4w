@@ -94,9 +94,7 @@
   </div>
 
   {#if showHand}
-  <svg>
-      <use href={`./assets/A.svg`} />
-  </svg>
+  <InlineSVG src='./src/assets/A.svg'/>
   {/if}
 
   <div class="board" style="position: relative; height: 300px">
@@ -144,7 +142,7 @@
 </main>
 
 <style>
-  .logo {
+   .logo {
     width: 5em;
     will-change: filter;
   }
