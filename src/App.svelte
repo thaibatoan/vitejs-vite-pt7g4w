@@ -6,6 +6,8 @@
   import { getCombinationType } from './logic';
   import StackedCards from './lib/StackedCards.svelte';
   import { getCardRankAndSuit, randomInt } from './utils';
+  import svg from './assets/A.svg';
+  import InlineSVG from 'svelte-inline-svg'
 
   const [send, receive] = crossfade({});
 
@@ -90,6 +92,12 @@
     <StackedCards {number} />
     <StackedCards {number} />
   </div>
+
+  {#if showHand}
+  <svg>
+      <use href={`./assets/A.svg`} />
+  </svg>
+  {/if}
 
   <div class="board" style="position: relative; height: 300px">
     {#each playedCards as { cards, rotation, x, y }}
