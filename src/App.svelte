@@ -3,7 +3,7 @@
   import { crossfade, fly } from 'svelte/transition';
   import type { Card } from './constant';
   import { RANKS, RANK_MAP, SUITS, SUIT_MAP } from './constant';
-  import { getCombinationType } from './logic';
+  import { getCombinationType, isValidMove, compareCard } from './logic';
   import StackedCards from './lib/StackedCards.svelte';
   import { getCardRankAndSuit, randomInt } from './utils';
   import ArcanaCard from './lib/ArcanaCard.svelte';
@@ -15,12 +15,17 @@
     selected: boolean;
   }
 
-  let currentCards: CurrentCard[] = randomHand();
+  interface History { cards: Card[]; owner: number , rotation: number; x: number; y: number }
 
-  let playedCards: { cards: Card[]; rotation: number; x: number; y: number }[] = [
-    { cards: ['3♠️', '4♠️', '5♠️'], rotation: randomInt(-30, 30), x: randomInt(-50, 50), y: randomInt(-50, 50) },
-    { cards: ['6♠️', '7♠️', '8♠️'], rotation: randomInt(-30, 30), x: randomInt(-50, 50), y: randomInt(-50, 50) },
-    { cards: ['9♠️', '10♠️', 'J♠️'], rotation: randomInt(-30, 30), x: randomInt(-50, 50), y: randomInt(-50, 50) },
+  let currentCards: CurrentCard[] = randomHand();
+  let players = 4;
+  let id = 0;
+
+  let history: History[] = [
+    { cards: ['3♠️', '4♠️', '5♠️'], owner: 0, rotation: randomInt(-30, 30), x: randomInt(-50, 50), y: randomInt(-50, 50) },
+    { cards: [], owner: 1, rotation: randomInt(-30, 30), x: randomInt(-50, 50), y: randomInt(-50, 50) },
+    { cards: ['6♠️', '7♠️', '8♠️'], owner: 2, rotation: randomInt(-30, 30), x: randomInt(-50, 50), y: randomInt(-50, 50) },
+    { cards: ['9♠️', '10♠️', 'J♠️'], owner: 3, rotation: randomInt(-30, 30), x: randomInt(-50, 50), y: randomInt(-50, 50) },
   ];
 
   function selectCard(card: Card) {
@@ -35,7 +40,7 @@
 
   function sendCards(): void {
     const selectedCards: Card[] = currentCards.filter(({ selected }) => selected).map(({ card }) => card);
-    playedCards = [...playedCards, { cards: selectedCards, rotation: 0, x: 0, y: randomInt(-50, 50) }];
+    history = [...history, { cards: selectedCards, owner: 0, rotation: 0, x: 0, y: randomInt(-50, 50) }];
     currentCards = currentCards.filter(({ selected }) => !selected);
   }
 
@@ -47,11 +52,7 @@
     } else {
       showHand = true;
       setTimeout(() => {
-        currentCards = currentCards.sort(({ card: card1 }, { card: card2 }) => {
-          const [number1, type1] = getCardRankAndSuit(card1);
-          const [number2, type2] = getCardRankAndSuit(card2);
-          return RANK_MAP[number1] - RANK_MAP[number2] || SUIT_MAP[type1] - SUIT_MAP[type2];
-        });
+        currentCards = currentCards.sort(({ card: card1 }, { card: card2 }) => compareCard(card1, card2));
       }, 1800);
 
       const timer = setInterval(() => {
@@ -74,26 +75,19 @@
     return [...result].map((card) => ({ card, selected: false }));
   }
 
-  function isValid() {
-    const selectedCards: Card[] = currentCards.filter(({ selected }) => selected).map(({ card }) => card);
-    if (playedCards.length > 0) {
-      const lastCards = playedCards.at(-1).cards;
-    }
-  }
-
   $: selectedCards = currentCards.filter(({ selected }) => selected).map(({ card }) => card);
-  $: isValidMove = getCombinationType(selectedCards) !== 'none';
-</script>
+  $: isValid = isValidMove(history, selectedCards, id, players);
+ </script>
 
 <main>
-  <div style="display: flex; justify-content: space-between">
+  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr">
     <StackedCards {number} />
     <StackedCards {number} />
     <StackedCards {number} />
   </div>
 
   <div class="board" style="position: relative; height: 300px">
-    {#each playedCards as { cards, rotation, x, y }}
+    {#each history as { cards, rotation, x, y }}
       <div class="board-item" style="rotate: {rotation}deg; translate: {x}px {y}px; --items: {cards.length}">
         {#each cards as card}
           <div class="image">
@@ -123,19 +117,9 @@
   {/if}
 
   <div style="padding: 2em">
-    <button on:click={sendCards} disabled={!isValidMove}>Send</button>
+    <button on:click={sendCards} disabled={!isValid}>Send</button>
     <button on:click={dealCards}>Deal</button>
   </div>
-
-  {#if showHand}
-    {#each SUITS as suit}
-      <div>
-        {#each RANKS as rank}
-          <ArcanaCard {suit} {rank} />
-        {/each}
-      </div>
-    {/each}
-  {/if}
 </main>
 
 <style>

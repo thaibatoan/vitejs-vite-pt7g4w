@@ -1,4 +1,4 @@
-import { RANKS, RANK_MAP } from './constant';
+import { RANKS, RANK_MAP, SUIT_MAP } from './constant';
 import type { Card, CardRank, CardSuit } from './constant';
 import { getCardRankAndSuit } from './utils';
 
@@ -23,12 +23,11 @@ export function getCombinationType(cardStrings: Card[]) {
   if (ranks.includes('2')) return 'none';
 
   if (isStraight(ranks)) {
-    return 'straight';
+    return `${ranks.length}_straight`;
   }
 
   if (isStraightPairs(ranks)) {
-    if (cards.length === 6) return 'three_straight_pairs';
-    if (cards.length >= 8) return 'four_or_more_straight_pairs';
+    return `${ranks.length / 2}_straight_pairs`;
   }
   return 'none';
 }
@@ -72,4 +71,57 @@ function hasSixPairs(ranks: CardRank[]) {
     }
   }
   return true;
+}
+
+interface CurrentCard {
+  card: Card;
+  selected: boolean;
+}
+
+interface History {
+  cards: Card[];
+  owner: number;
+  rotation: number;
+  x: number;
+  y: number;
+}
+
+export function isValidMove(
+  history: History[],
+  selectedCards: Card[],
+  myId: number,
+  players = 4
+) {
+  if (!selectedCards || selectedCards.length === 0) return false;
+  const lastPlayer = history.at(-1).owner;
+  const nextPlayer = (lastPlayer + 1) % players;
+  if (nextPlayer !== myId) return false;
+
+  const lastPlayedEntry = history
+    .filter((entry) => entry.cards.length > 0)
+    .at(-1);
+  console.log(lastPlayedEntry);
+  const myCombination = getCombinationType(selectedCards);
+  console.log(myCombination);
+  if (!lastPlayedEntry || lastPlayedEntry.owner === myId) {
+    console.log('free');
+    return myCombination !== 'none';
+  }
+  const lastOpponentCombination = getCombinationType(lastPlayedEntry.cards);
+  console.log(selectedCards, lastPlayedEntry.cards);
+  const hasBiggerCard =
+    compareCard(selectedCards.at(-1), lastPlayedEntry.cards.at(-1)) > 0;
+  return lastOpponentCombination === myCombination && hasBiggerCard;
+}
+
+function isMyTurn(lastPlayer: number, id: number, players: number) {
+  return (lastPlayer + 1) % players === id;
+}
+
+export function compareCard(card1: Card, card2: Card) {
+  const [number1, type1] = getCardRankAndSuit(card1);
+  const [number2, type2] = getCardRankAndSuit(card2);
+  return (
+    RANK_MAP[number1] - RANK_MAP[number2] || SUIT_MAP[type1] - SUIT_MAP[type2]
+  );
 }
